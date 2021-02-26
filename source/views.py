@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from .models import UserProfile
 
 def home(request):
     return render(request, 'source/home.html')
@@ -34,6 +35,7 @@ def signup(request):
 
 def add_user(request):
     if request.method == "POST":
+        name = request.POST["name"]
         email = request.POST["email"]
         password = request.POST["password"]
         password_repeat = request.POST["password-repeat"]
@@ -44,6 +46,11 @@ def add_user(request):
                 password=password
             )
             auth.login(request, user)
+            user_profile = UserProfile(
+                user=user,
+                name=name
+            )
+            user_profile.save()
             return redirect('home')
     else:
         return redirect('signup')
@@ -53,6 +60,8 @@ def profile(request):
     return render(request, 'source/Profile.html')
 
 
+def resources(request):
+    return render(request, 'source/resources.html')
 
 """
 1) Ready all htmls (make sure that each one can be accessed in a standalone manner from the browser)

@@ -25,5 +25,6 @@ urlpatterns = [
     path('signup', sviews.signup , name='signup'),
     path('add_user', sviews.add_user, name='add_user'),
     path('profile', sviews.profile, name='profile'),
+    path('resources', sviews.resources, name='resources'),
     path('logout', sviews.logout),
 ]
