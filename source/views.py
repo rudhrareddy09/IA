@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from .models import UserProfile
+from .models import UserProfile, UniversityRecord
+from django.http import JsonResponse
 
 def home(request):
     return render(request, 'source/home.html')
@@ -57,7 +58,18 @@ def add_user(request):
 
 @login_required
 def profile(request):
-    return render(request, 'source/Profile.html')
+    user_profile = UserProfile.objects.filter(
+        user = request.user
+    )
+    user_profile = list(user_profile)[0]
+    univ_records = UniversityRecord.objects.filter(
+        user=request.user
+    )
+    context = {
+        "user_profile" : user_profile,
+        "univ_records" : univ_records
+    }
+    return render(request, 'source/Profile.html', context)
 
 
 def resources(request):
@@ -71,6 +83,74 @@ def resources(request):
 5) Place all the CSS assets in ia1/static/assets
 6) Make sure bootstrap, jquery are added in all htmls
 """
+
+
+"""
+git status (tells you which files have been changed)
+git add . (adds ALL files to the staging area)
+git commit -m "enter your commit message"
+git push origin main
+"""
+
+
+def update_dp(request):
+    user_profile = UserProfile.objects.filter(
+        user = request.user
+    )
+    user_profile = list(user_profile)[0]
+    user_profile.profile_pic = request.FILES['dp_new']
+    user_profile.save()
+
+    univ_records = UniversityRecord.objects.filter(
+        user=request.user
+    )
+    context = {
+        "user_profile" : user_profile,
+        "univ_records" : univ_records
+    }
+    return redirect('profile')
+
+
+def update_univ_record(request, ur_id):
+    if request.method=='POST':
+        ur = get_object_or_404(UniversityRecord, pk=ur_id)
+        ur.programme=request.POST["programme"]
+        ur.deadline=request.POST["deadline"]
+        ur.save()
+        return redirect('profile')
+    return JsonResponse({
+        "message" : "Only POST request supported for the URL"
+    })
+
+
+def add_univ_record(request):
+    if request.method=='POST':
+        univ_name = request.POST["univ_name"]
+        programme = request.POST["programme"]
+        deadline = request.POST["deadline"]
+        ur = UniversityRecord(
+            user=request.user,
+            university_name=univ_name,
+            programme=programme,
+            deadline=deadline
+        )
+        ur.save()
+        user_profile = UserProfile.objects.filter(
+            user=request.user
+        )
+        user_profile = list(user_profile)[0]
+        univ_records = UniversityRecord.objects.filter(
+            user=request.user
+        )
+        context = {
+            "user_profile": user_profile,
+            "univ_records": univ_records
+        }
+        return redirect('profile')
+
+    return JsonResponse({
+        "message" : "Only POST request supported for the URL"
+    })
 
 
 

@@ -1,13 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <title>Profile</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-<h1>Welcome</h1>
+    <div>
+        <div class="header-dark">
+            <div>
+                <nav class="navbar navbar-inverse">
+                  <div class="container-fluid">
+                    <div class="navbar-header">
+                      <a class="navbar-brand" href="#">College App Manager</a>
+                    </div>
+                    <ul class="nav navbar-nav">
+                      <li class="active"><a href="{% url 'resources' %}">Resources</a></li>
+                      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Profile <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="#">Update Password</a></li>
+                          <li><a data-toggle="modal" data-target="#new_pic_modal" href="#">Change Profile Pic</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                      <li><a href="{% url 'logout' %}">Log Out</a></li>
+                    </ul>
+                  </div>
+                </nav>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8">
+                        {% for univ in univ_records.all %}
+                            <div>
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <h4>{{univ.university_name}}</h4>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#univ{{univ.id}}">Track</button>
+                                    </div>
+                                </div>
+                                <div class="modal fade" id="univ{{univ.id}}" tabindex="-1">
+                                  <div class="modal-dialog">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" >{{univ.university_name}} Application</h5>
+                                      </div>
+                                      <div class="modal-body">
+                                          <form class="form-horizontal" action="{% url 'update_univ_record' univ.id %}" method="post" enctype="multipart/form-data">
+                                          {% csrf_token %}
+                                            <div class="form-group">
+                                            <label class="control-label col-sm-2" for="univ_name_update">University</label>
+                                            <div class="col-sm-10">
+                                              <input type="text" class="form-control" id="univ_name_update" name="univ_name" value="{{univ.university_name}}" readonly>
+                                            </div>
+                                          </div>
+                                            <div class="form-group">
+                                            <label class="control-label col-sm-2" for="programme_update">Programme</label>
+                                            <div class="col-sm-10">
+                                              <input type="text" class="form-control" id="programme_update" name="programme" value="{{univ.programme}}" required>
+                                            </div>
+                                          </div>
+                                            <div class="form-group">
+                                            <label class="control-label col-sm-2" for="deadline_update">Deadline</label>
+                                            <div class="col-sm-10">
+                                              <input type="datetime-local" class="form-control" id="deadline_update" name="deadline"
+                                                     value="{{univ.deadline|date:'Y-m-d'}}T{{univ.deadline|time:'H:i:s'}}" required>
+                                            </div>
+                                          </div>
+                                          <div class="form-group">
+                                            <div class="col-sm-offset-8 col-sm-4">
+                                              <button type="button" data-dismiss="modal" class="btn">Cancel</button>
+                                              <button type="submit" class="btn btn-primary">Update</button>
+                                            </div>
+                                          </div>
+                                    </form>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                            </div>
+                            <hr>
+                        {% endfor %}
+                        <div>
+                            <div class="row">
+                                <div class="col-sm-offset-4 col-sm-4">
+                                    <button type="button" data-toggle="modal" data-target="#new_ur_modal" class="btn btn-primary">New  <span class="glyphicon glyphicon-plus"></span></button>
+                                </div>
+                                <div class="modal fade" id="new_ur_modal" tabindex="-1">
+                                  <div class="modal-dialog">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" >New Application</h5>
+                                      </div>
+                                      <div class="modal-body">
+                                          <form class="form-horizontal" action="{% url 'add_univ_record'  %}" method="post" enctype="multipart/form-data">
+                                          {% csrf_token %}
+                                            <div class="form-group">
+                                            <label class="control-label col-sm-2" for="univ_name">University</label>
+                                            <div class="col-sm-10">
+                                              <input type="text" class="form-control" id="univ_name" name="univ_name" required>
+                                            </div>
+                                          </div>
+                                            <div class="form-group">
+                                            <label class="control-label col-sm-2" for="programme">Programme</label>
+                                            <div class="col-sm-10">
+                                              <input type="text" class="form-control" id="programme" name="programme" required>
+                                            </div>
+                                          </div>
+                                            <div class="form-group">
+                                            <label class="control-label col-sm-2" for="deadline">Deadline</label>
+                                            <div class="col-sm-10">
+                                              <input type="datetime-local" class="form-control" id="deadline" name="deadline" required>
+                                            </div>
+                                          </div>
+                                            <div class="form-group">
+                                            <div class="col-sm-offset-8 col-sm-4">
+                                              <button type="button" data-dismiss="modal" class="btn">Cancel</button>
+                                              <button type="submit" class="btn btn-primary">Add</button>
+                                            </div>
+                                          </div>
+                                    </form>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="card">
+                        <img class="card-img-top img-circle" src="{% if user_profile.profile_pic %} {{user_profile.profile_pic.url}} {% else %} {% static 'images/default_user.jpg' %} {% endif %}" alt="User image" style="max-width:100%; height:auto">
+                        <div class="card-body">
+                          <h4 class="card-title">{{user_profile.name}}</h4>
+                          <p class="card-text">{{user_profile.user}}</p>
+                            <div>
+                                <button style="margin-top:10px" class="btn btn-primary p-2" type="button" data-toggle="modal" data-target="#new_pic_modal">Update Pic</button>
+                                <div class="modal fade" id="new_pic_modal" role="dialog">
+
+                                    <div class="modal-dialog">
+
+                                      <!-- Modal content-->
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                          <h4 class="modal-title">Update Pic</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                    <form class="form-horizontal" action="{% url 'update_dp' %}" method="post" enctype="multipart/form-data">
+                                      {% csrf_token %}
+                                        <div class="form-group">
+                                        <label class="control-label col-sm-2" for="dp_new">Image</label>
+                                        <div class="col-sm-10">
+                                          <input type="file" accept="image/*" class="form-control" id="dp_new" name="dp_new" placeholder="Choose Image" required>
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <div class="col-sm-offset-10 col-sm-2">
+                                          <button type="submit" class="btn btn-primary">Update</button>
+                                        </div>
+                                      </div>
+                                    </form>
+                                        </div>
+                                      </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </body>
+
 </html>

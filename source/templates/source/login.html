@@ -6,6 +6,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://code.ionicframework.com/1.3.3/css/ionic.min.css">
+    <link rel="stylesheet" href="{% static 'assets/login-form-dark.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <title>Login</title>
@@ -19,7 +22,7 @@
             <div class="illustration"><i class="icon ion-ios-locked-outline"></i></div>
             <div class="form-group"><input type="email" class="form-control form-control-lg visible" name="email" placeholder="Email" autocomplete="on" autofocus /></div>
             <div class="form-group"><input type="password" class="form-control" name="password" placeholder="Password" /></div>
-            <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Log In</button></div><a class="forgot" style="color: rgb(111, 122, 133);">Forgot your email or password?</a><a href="SignUp.html" style="text-align: center;font-size: 12px;color: rgb(111,122,133);">New User? Sign Up</a>
+            <div class="form-group"><button class="btn btn-primary btn-block" type="submit">Log In</button></div><a class="forgot" style="color: rgb(111, 122, 133);">Forgot your email or password?</a><a href="{% url 'signup' %}" style="text-align: center;font-size: 12px;color: rgb(111,122,133);">New User? Sign Up</a>
         </form>
     </section>
 </body>

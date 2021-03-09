@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from source import views as sviews
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,5 +28,9 @@ urlpatterns = [
     path('add_user', sviews.add_user, name='add_user'),
     path('profile', sviews.profile, name='profile'),
     path('resources', sviews.resources, name='resources'),
-    path('logout', sviews.logout),
-]
+    path('logout', sviews.logout, name="logout"),
+    path('update_dp', sviews.update_dp, name="update_dp"),
+    path('update_univ_record/<int:ur_id>', sviews.update_univ_record, name="update_univ_record"),
+    path('add_univ_record', sviews.add_univ_record, name="add_univ_record"),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
