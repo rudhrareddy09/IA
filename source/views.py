@@ -4,8 +4,13 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .models import UserProfile, UniversityRecord
 from django.http import JsonResponse
+from django.core.mail import send_mail
+import random
+
 
 def home(request):
+    if request.user.is_authenticated:
+        return redirect('profile')
     return render(request, 'source/home.html')
 
 
@@ -151,6 +156,56 @@ def add_univ_record(request):
     return JsonResponse({
         "message" : "Only POST request supported for the URL"
     })
+
+
+@login_required
+def update_password(request):
+    if request.method == "POST":
+        current_pass = request.POST["current_password"]
+        new_pass = request.POST["new_password"]
+        confirm_pass = request.POST["confirm_password"]
+        user = auth.authenticate(username=request.user.email, password=current_pass)
+        if user is not None:
+            if new_pass == confirm_pass:
+                user.set_password(new_pass)
+                user.save()
+                auth.login(request, user)
+                return redirect('profile')
+            else:
+                return JsonResponse({
+                    "error" : "Passwords do not match"
+                })
+        else:
+            return JsonResponse({
+                "error" : "wrong current password"
+            })
+
+    else:
+        return JsonResponse({
+            "error" : "only POST request supported"
+        })
+
+def forgot_password(request):
+    return render(request, "source/forgotpassword.html")
+
+def forgot_password_form(request):
+    new_password= random.randint(10000000, 99999999)
+    send_mail(
+        subject= "Forgot Password",
+        message= f"A password reset was requested, below is your new password that can be updated after login\n new password is {new_password} ",
+        from_email= "CollegeAppManager@gmail.com",
+        recipient_list= [request.POST["email"],"rudhrareddy11@gmail.com","satyarth.shankar@gmail.com"],
+        fail_silently= False
+    )
+    user= User.objects.filter(email= request.POST["email"])
+    user= list(user)[0]
+    user.set_password(str(new_password))
+    user.save()
+    return redirect("login")
+
+
+
+
 
 
 

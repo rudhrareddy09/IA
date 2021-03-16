@@ -129,3 +129,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = "/media/"
+
+LOGIN_URL = "/login"
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'CollegeAppManager@gmail.com'
+EMAIL_HOST_PASSWORD = 'a1b2c3d4e5f6g7'
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True

@@ -32,5 +32,8 @@ urlpatterns = [
     path('update_dp', sviews.update_dp, name="update_dp"),
     path('update_univ_record/<int:ur_id>', sviews.update_univ_record, name="update_univ_record"),
     path('add_univ_record', sviews.add_univ_record, name="add_univ_record"),
+    path('update_password', sviews.update_password, name="update_password"),
+    path('forgot_password', sviews.forgot_password, name="forgot_password"),
+    path('forgot_password_form', sviews.forgot_password_form, name="forgot_password_form"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
