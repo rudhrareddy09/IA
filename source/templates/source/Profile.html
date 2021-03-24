@@ -18,14 +18,20 @@
                       <a class="navbar-brand" href="#">College App Manager</a>
                     </div>
                     <ul class="nav navbar-nav">
-                      <li class="active"><a href="{% url 'resources' %}">Resources</a></li>
                       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Profile <span class="caret"></span></a>
                         <ul class="dropdown-menu">
+                          <li><a href="#">Dashboard</a></li>
                           <li><a data-toggle="modal" data-target="#update_password_modal" href="#">Update Password</a></li>
                           <li><a data-toggle="modal" data-target="#new_pic_modal" href="#">Change Profile Pic</a></li>
                         </ul>
                       </li>
+                        <li>
+                            <a href="{% url 'essays' %}" >
+                                Essays
+                            </a>
+                        </li>
                     </ul>
+
                     <ul class="nav navbar-nav navbar-right">
                       <li><a href="{% url 'logout' %}">Log Out</a></li>
                     </ul>
@@ -63,7 +69,7 @@
                                             <div class="form-group">
                                             <label class="control-label col-sm-2" for="programme_update">Programme</label>
                                             <div class="col-sm-10">
-                                              <input type="text" class="form-control" id="programme_update" name="programme" value="{{univ.programme}}" required>
+                                              <input type="text" class="form-control" id="programme_update" name="programme" value="{{univ.programme}}" >
                                             </div>
                                           </div>
                                             <div class="form-group">
@@ -72,6 +78,76 @@
                                               <input type="datetime-local" class="form-control" id="deadline_update" name="deadline"
                                                      value="{{univ.deadline|date:'Y-m-d'}}T{{univ.deadline|time:'H:i:s'}}" required>
                                             </div>
+                                                <div class="form-group">
+                                            <label class="control-label col-sm-3" for="univ_info_update">Personal Information</label>
+                                            <div class="col-sm-1">
+                                              <input type="checkbox" class="form-control" id="univ_info_update" name="Personal Information" value="{{univ.info}}">
+                                            </div>
+                                                    <div class="col-sm-8">
+
+                                                    </div>
+
+                                                     </div>
+                                                <div class="form-group">
+                                            <label class="control-label col-sm-3" for="univ_reco_update">Recommendations</label>
+                                            <div class="col-sm-1">
+                                              <input type="checkbox" class="form-control" id="univ_reco_update" name="univ_reco_update"
+                                              {% if univ.reco %}checked{% endif %}>
+                                            </div>
+                                                    <div class="col-sm-8">
+
+                                                    </div>
+
+                                                     </div>
+                                                <div class="form-group">
+                                            <label class="control-label col-sm-3" for="univ_essays_update">Essays</label>
+                                            <div class="col-sm-1">
+                                              <input type="checkbox" class="form-control" id="univ_essays_update" name="univ_essays-update"  >
+                                            </div>
+                                                    <div class="col-sm-8">
+
+                                                    </div>
+
+                                                     </div>
+                                                <div class="form-group">
+                                            <label class="control-label col-sm-3" for="univ_financial_update">Financial Statements</label>
+                                            <div class="col-sm-1">
+                                              <input type="checkbox" class="form-control" id="univ_financial_update" name="Financial Statements" value="{{univ.info}}" >
+                                            </div>
+                                                    <div class="col-sm-8">
+
+                                                    </div>
+
+                                                     </div>
+                                                <div class="form-group">
+                                            <label class="control-label col-sm-3" for="univ_transcripts_update">Transcripts</label>
+                                            <div class="col-sm-1">
+                                              <input type="checkbox" class="form-control" id="univ_transcripts_update" name="Transcripts" value="{{univ.info}}" >
+                                            </div>
+                                                    <div class="col-sm-8">
+
+                                                    </div>
+
+                                                     </div>
+                                                <div class="form-group">
+                                            <label class="control-label col-sm-3" for="univ_test_update">Test Scores</label>
+                                            <div class="col-sm-1">
+                                              <input type="checkbox" class="form-control" id="univ_test_update" name="Test Scores" value="{{univ.info}}" >
+                                            </div>
+                                                    <div class="col-sm-8">
+
+                                                    </div>
+
+                                                     </div>
+                                                <div class="form-group">
+                                            <label class="control-label col-sm-3" for="univ_extra_update">Extracurricular Activities</label>
+                                            <div class="col-sm-1">
+                                              <input type="checkbox" class="form-control" id="univ_extra_update" name="Extracurricular Activities" value="{{univ.info}}" >
+                                            </div>
+                                                    <div class="col-sm-8">
+
+                                                    </div>
+                                          </div>
                                           </div>
                                           <div class="form-group">
                                             <div class="col-sm-offset-8 col-sm-4">
@@ -105,7 +181,13 @@
                                             <div class="form-group">
                                             <label class="control-label col-sm-2" for="univ_name">University</label>
                                             <div class="col-sm-10">
-                                              <input type="text" class="form-control" id="univ_name" name="univ_name" required>
+                                              <input type="text" class="form-control" id="univ_name"
+                                                     name="univ_name" list="univ_names" autocomplete="off" required>
+                                                <datalist id="univ_names">
+                                                    {% for u in univ_names %}
+                                                    <option> {{u}} </option>
+                                                    {% endfor %}
+                                                </datalist>
                                             </div>
                                           </div>
                                             <div class="form-group">
@@ -120,6 +202,75 @@
                                               <input type="datetime-local" class="form-control" id="deadline" name="deadline" required>
                                             </div>
                                           </div>
+                                              <div class="form-group">
+                                                  <label class="control-label col-sm-3" for="univ_names">Recommendations</label>
+                                                  <div class="col-sm-1">
+                                                      <input type="checkbox" class="form-control" id="univ_reco"
+                                                     name="univ_reco" >
+                                                  </div>
+                                                  <div class="col-sm-8">
+
+                                                  </div>
+                                              </div>
+                                              <div class="form-group">
+                                                  <label class="control-label col-sm-3" for="univ_names">Essays</label>
+                                                  <div class="col-sm-1">
+                                                      <input type="checkbox" class="form-control" id="univ_essay"
+                                                     name="univ_essay" >
+                                                  </div>
+                                                  <div class="col-sm-8">
+
+                                                  </div>
+                                              </div>
+                                              <div class="form-group">
+                                                  <label class="control-label col-sm-3" for="univ_names">Personal Information</label>
+                                                  <div class="col-sm-1">
+                                                      <input type="checkbox" class="form-control" id="univ_info"
+                                                     name="univ_info" >
+                                                  </div>
+                                                  <div class="col-sm-8">
+
+                                                  </div>
+                                              </div>
+                                              <div class="form-group">
+                                                  <label class="control-label col-sm-3" for="univ_names">Financial Statement</label>
+                                                  <div class="col-sm-1">
+                                                      <input type="checkbox" class="form-control" id="univ_financial"
+                                                     name="univ_financial" >
+                                                  </div>
+                                                  <div class="col-sm-8">
+
+                                                  </div>
+                                              </div>
+                                              <div class="form-group">
+                                                  <label class="control-label col-sm-3" for="univ_names">Transcripts</label>
+                                                  <div class="col-sm-1">
+                                                      <input type="checkbox" class="form-control" id="univ_transcripts"
+                                                     name="univ_transcripts" >
+                                                  </div>
+                                                  <div class="col-sm-8">
+
+                                              </div>
+
+                                              </div>
+                                                 <div class="form-group">
+                                                  <label class="control-label col-sm-3" for="univ_names">Test Scores</label>
+                                                  <div class="col-sm-1">
+                                                      <input type="checkbox" class="form-control" id="univ_test"
+                                                     name="univ_test" >
+                                                  </div>
+                                                  <div class="col-sm-8"> </div>
+                                                 </div>
+
+                                                     <div class="form-group">
+                                                  <label class="control-label col-sm-3" for="univ_names">Extracurricular Activities</label>
+                                                  <div class="col-sm-1">
+                                                      <input type="checkbox" class="form-control" id="univ_extra"
+                                                     name="univ_extra" >
+                                                  </div>
+                                                  <div class="col-sm-8"> </div>
+                                              </div>
+
                                             <div class="form-group">
                                             <div class="col-sm-offset-8 col-sm-4">
                                               <button type="button" data-dismiss="modal" class="btn">Cancel</button>
@@ -195,7 +346,7 @@
                                         <div class="form-group">
                                         <label class="control-label col-sm-2" for="new_password">New Password</label>
                                         <div class="col-sm-10">
-                                          <input type="password" class="form-control" id="new_password" name="new_password" placeholder="New Password" required>
+                                          <input type="password" class="form-control" id="new_password" name="new_password" placeholder="New Password" required minlength="8 Characters" maxlength="32 Characters"/>
                                         </div>
                                       </div>
                                         <div class="form-group">

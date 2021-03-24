@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Essays</title>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div>
+        <div class="header-dark">
+            <div>
+                <nav class="navbar navbar-inverse">
+                  <div class="container-fluid">
+                    <div class="navbar-header">
+                      <a class="navbar-brand" href="#">College App Manager</a>
+                    </div>
+                    <ul class="nav navbar-nav">
+                      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Profile <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="{% url 'profile' %}">Dashboard</a></li>
+                          <li><a data-toggle="modal" data-target="#update_password_modal" href="#">Update Password</a></li>
+                          <li><a data-toggle="modal" data-target="#new_pic_modal" href="#">Change Profile Pic</a></li>
+                        </ul>
+                      </li>
+                        <li class="active">
+                            <a href="#" >
+                                Essays
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                      <li><a href="{% url 'logout' %}">Log Out</a></li>
+                    </ul>
+                  </div>
+                </nav>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8">
+                        {% for essay in all_essays %}
+                            <div>
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <h4>{{essay.univ_name}}</h4>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#essay{{essay.id}}">Edit</button>
+                                    </div>
+                                <div class="modal fade" id="essay{{essay.id}}" tabindex="-1">
+                                  <div class="modal-dialog">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h5 class="modal-title" >{{essay.univ_name}} Essay</h5>
+                                      </div>
+                                      <div class="modal-body">
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                </div>
+                            </div>
+                            <hr>
+                        {% endfor %}
+                    </div>
+                    <div class="col-sm-4">
+                        <button style="margin-top:10px" class="btn btn-primary p-2" type="button" data-toggle="modal" data-target="#new_essay_modal">Add Essay</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

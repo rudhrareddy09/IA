@@ -22,12 +22,10 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', sviews.home, name="home"),
-    path('about', sviews.about, name='about'),
     path('login', sviews.login , name='login'),
     path('signup', sviews.signup , name='signup'),
     path('add_user', sviews.add_user, name='add_user'),
     path('profile', sviews.profile, name='profile'),
-    path('resources', sviews.resources, name='resources'),
     path('logout', sviews.logout, name="logout"),
     path('update_dp', sviews.update_dp, name="update_dp"),
     path('update_univ_record/<int:ur_id>', sviews.update_univ_record, name="update_univ_record"),
@@ -35,5 +33,6 @@ urlpatterns = [
     path('update_password', sviews.update_password, name="update_password"),
     path('forgot_password', sviews.forgot_password, name="forgot_password"),
     path('forgot_password_form', sviews.forgot_password_form, name="forgot_password_form"),
+    path('essays', sviews.essays, name="essays"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from .models import UserProfile, UniversityRecord
+from .models import *
 from django.http import JsonResponse
 from django.core.mail import send_mail
 import random
@@ -13,9 +13,6 @@ def home(request):
         return redirect('profile')
     return render(request, 'source/home.html')
 
-
-def about(request):
-    return render(request, 'source/about.html')
 
 def login(request):
     if request.method == "POST":
@@ -70,32 +67,16 @@ def profile(request):
     univ_records = UniversityRecord.objects.filter(
         user=request.user
     )
+    univ_names=UniversityName.objects.all()
     context = {
         "user_profile" : user_profile,
-        "univ_records" : univ_records
+        "univ_records" : univ_records,
+        "univ_names" : univ_names
     }
     return render(request, 'source/Profile.html', context)
 
 
-def resources(request):
-    return render(request, 'source/resources.html')
 
-"""
-1) Ready all htmls (make sure that each one can be accessed in a standalone manner from the browser)
-2) Connect all necessary htmls to the navbar
-3) Place all images in ia1/static/images
-4) Ready the Profile Page 
-5) Place all the CSS assets in ia1/static/assets
-6) Make sure bootstrap, jquery are added in all htmls
-"""
-
-
-"""
-git status (tells you which files have been changed)
-git add . (adds ALL files to the staging area)
-git commit -m "enter your commit message"
-git push origin main
-"""
 
 
 def update_dp(request):
@@ -121,6 +102,7 @@ def update_univ_record(request, ur_id):
         ur = get_object_or_404(UniversityRecord, pk=ur_id)
         ur.programme=request.POST["programme"]
         ur.deadline=request.POST["deadline"]
+        ur.reco=request.POST.get("univ_reco_update", "") == "on"
         ur.save()
         return redirect('profile')
     return JsonResponse({
@@ -133,11 +115,15 @@ def add_univ_record(request):
         univ_name = request.POST["univ_name"]
         programme = request.POST["programme"]
         deadline = request.POST["deadline"]
+        univ_reco= request.POST.get("univ_reco", "") == "on"
+
+
         ur = UniversityRecord(
             user=request.user,
             university_name=univ_name,
             programme=programme,
-            deadline=deadline
+            deadline=deadline,
+            reco=univ_reco,
         )
         ur.save()
         user_profile = UserProfile.objects.filter(
@@ -147,10 +133,11 @@ def add_univ_record(request):
         univ_records = UniversityRecord.objects.filter(
             user=request.user
         )
-        context = {
-            "user_profile": user_profile,
-            "univ_records": univ_records
-        }
+        UniversityName.objects.get_or_create(
+            name=univ_name
+        )
+
+
         return redirect('profile')
 
     return JsonResponse({
@@ -194,7 +181,7 @@ def forgot_password_form(request):
         subject= "Forgot Password",
         message= f"A password reset was requested, below is your new password that can be updated after login\n new password is {new_password} ",
         from_email= "CollegeAppManager@gmail.com",
-        recipient_list= [request.POST["email"],"rudhrareddy11@gmail.com","satyarth.shankar@gmail.com"],
+        recipient_list= [request.POST["email"]],
         fail_silently= False
     )
     user= User.objects.filter(email= request.POST["email"])
@@ -203,7 +190,14 @@ def forgot_password_form(request):
     user.save()
     return redirect("login")
 
-
+def essays(request):
+    all_essays = Essay.objects.filter(
+        user=request.user
+    )
+    context = {
+        "all_essays" : all_essays
+    }
+    return render(request, "source/Essays.html", context)
 
 
 

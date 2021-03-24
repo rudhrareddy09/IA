@@ -3,3 +3,5 @@ from .models import *
 
 admin.site.register(UserProfile)
 admin.site.register(UniversityRecord)
+admin.site.register(UniversityName)
+admin.site.register(Essay)
