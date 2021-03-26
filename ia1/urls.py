@@ -34,5 +34,7 @@ urlpatterns = [
     path('forgot_password', sviews.forgot_password, name="forgot_password"),
     path('forgot_password_form', sviews.forgot_password_form, name="forgot_password_form"),
     path('essays', sviews.essays, name="essays"),
+    path('essays/add', sviews.add_essay, name="add_essay"),
+    path('essays/edit/<int:essay_id>', sviews.edit_essay, name="edit_essay"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

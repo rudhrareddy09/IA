@@ -47,8 +47,13 @@
                                     <div class="col-sm-8">
                                         <h4>{{univ.university_name}}</h4>
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-2">
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#univ{{univ.id}}">Track</button>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <form action="#">
+                                            <button type="submit" class="btn btn-success">Get Approval</button>
+                                        </form>
                                     </div>
                                 </div>
                                 <div class="modal fade" id="univ{{univ.id}}" tabindex="-1">

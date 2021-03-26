@@ -190,14 +190,46 @@ def forgot_password_form(request):
     user.save()
     return redirect("login")
 
+@login_required()
 def essays(request):
     all_essays = Essay.objects.filter(
         user=request.user
     )
+    univ_names=UniversityName.objects.all()
     context = {
-        "all_essays" : all_essays
+        "all_essays" : all_essays,
+        "univ_names": univ_names
     }
     return render(request, "source/Essays.html", context)
+
+@login_required()
+def add_essay(request):
+    if request.method == "POST":
+        univ_name = request.POST["univ_name"]
+        prompt = request.POST["prompt"]
+        content = request.POST["essay_create"]
+        essay = Essay(
+            user=request.user,
+            univ_name=univ_name,
+            prompt=prompt,
+            content=content
+        )
+        essay.save()
+        return redirect('essays')
+
+@login_required()
+def edit_essay(request, essay_id):
+    if request.method == "POST":
+        essay = get_object_or_404(Essay, pk=essay_id)
+        univ_name = request.POST["univ_name_update"]
+        prompt = request.POST["prompt_update"]
+        content = request.POST["essay_update"]
+        if essay is not None:
+            essay.univ_name = univ_name
+            essay.prompt = prompt
+            essay.content = content
+            essay.save()
+        return redirect('essays')
 
 
 

@@ -50,17 +50,50 @@
                                     <div class="col-sm-4">
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#essay{{essay.id}}">Edit</button>
                                     </div>
-                                <div class="modal fade" id="essay{{essay.id}}" tabindex="-1">
-                                  <div class="modal-dialog">
-                                    <div class="modal-content">
-                                      <div class="modal-header">
-                                        <h5 class="modal-title" >{{essay.univ_name}} Essay</h5>
-                                      </div>
-                                      <div class="modal-body">
+                                    <div class="modal fade" id="essay{{essay.id}}" tabindex="-1">
+                                      <div class="modal-dialog">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h5 class="modal-title" >{{essay.univ_name}} Essay</h5>
+                                          </div>
+                                          <div class="modal-body">
+                                              <form class="form-horizontal" action="{% url 'edit_essay' essay.id %}" method="post">
+                                              {% csrf_token %}
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-2" for="univ_name_update">University</label>
+                                                    <div class="col-sm-10">
+                                                      <input type="text" class="form-control" id="univ_name_update"
+                                                             name="univ_name_update" list="univ_names_update" autocomplete="off" value="{{essay.univ_name}}" required>
+                                                        <datalist id="univ_names_update">
+                                                            {% for u in univ_names %}
+                                                            <option> {{u}} </option>
+                                                            {% endfor %}
+                                                        </datalist>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-2" for="prompt_update">Prompt</label>
+                                                    <div class="col-sm-10">
+                                                      <input type="text" class="form-control" id="prompt_update" name="prompt_update" value="{{essay.prompt}}" required>
+                                                    </div>
+                                                  </div>
+                                                <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <textarea class="form-control rounded-0" id="essay_update" name="essay_update" rows="20">{{essay.content}}</textarea>
+                                                </div>
+                                              </div>
+                                              <div class="form-group">
+                                                <div class="col-sm-offset-8 col-sm-4">
+                                                  <button type="button" data-dismiss="modal" class="btn">Cancel</button>
+                                                  <button type="submit" class="btn btn-primary">Update</button>
+                                                </div>
+                                              </div>
+                                        </form>
+
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-                                </div>
 
                                 </div>
                             </div>
@@ -69,7 +102,53 @@
                     </div>
                     <div class="col-sm-4">
                         <button style="margin-top:10px" class="btn btn-primary p-2" type="button" data-toggle="modal" data-target="#new_essay_modal">Add Essay</button>
+                        <div class="modal fade" id="new_essay_modal" tabindex="-1">
+                                      <div class="modal-dialog">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h5 class="modal-title" >New Essay</h5>
+                                          </div>
+                                          <div class="modal-body">
+                                              <form class="form-horizontal" action="{% url 'add_essay' %}" method="post">
+                                              {% csrf_token %}
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-2" for="univ_name">University</label>
+                                                    <div class="col-sm-10">
+                                                      <input type="text" class="form-control" id="univ_name"
+                                                             name="univ_name" list="univ_names" autocomplete="off" required>
+                                                        <datalist id="univ_names">
+                                                            {% for u in univ_names %}
+                                                            <option> {{u}} </option>
+                                                            {% endfor %}
+                                                        </datalist>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-sm-2" for="prompt">Prompt</label>
+                                                    <div class="col-sm-10">
+                                                      <input type="text" class="form-control" id="prompt" name="prompt" required>
+                                                    </div>
+                                                  </div>
+                                                <div class="form-group">
+                                                <div class="col-sm-12">
+                                                    <textarea class="form-control rounded-0" id="essay_create" name="essay_create" placeholder="enter essay here" rows="20"></textarea>
+                                                </div>
+                                              </div>
+                                              <div class="form-group">
+                                                <div class="col-sm-offset-8 col-sm-4">
+                                                  <button type="button" data-dismiss="modal" class="btn">Cancel</button>
+                                                  <button type="submit" class="btn btn-primary">Add</button>
+                                                </div>
+                                              </div>
+                                        </form>
+
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
                     </div>
+
                 </div>
 
             </div>
