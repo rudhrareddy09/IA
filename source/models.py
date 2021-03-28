@@ -40,3 +40,11 @@ class Essay(models.Model):
 
     def __str__(self):
         return f"{self.user} : {self.prompt}"
+
+
+class Councellor(models.Model):
+    user= models.OneToOneField(User, on_delete=models.CASCADE)
+    phone_number= models.CharField(max_length=10)
+
+    def __str__(self):
+        return f"{self.user}"

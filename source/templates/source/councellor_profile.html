@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Profile</title>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div>
+        <div class="header-dark">
+            <div>
+                <nav class="navbar navbar-inverse">
+                  <div class="container-fluid">
+                    <div class="navbar-header">
+                      <a class="navbar-brand" href="#">College App Manager</a>
+                    </div>
+                    <ul class="nav navbar-nav">
+                      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Profile <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="#">Dashboard</a></li>
+                          <li><a data-toggle="modal" data-target="#update_password_modal" href="#">Update Password</a></li>
+                          <li><a data-toggle="modal" data-target="#new_pic_modal" href="#">Change Profile Pic</a></li>
+                        </ul>
+                      </li>
+                        <li>
+                            <a href="{% url 'essays' %}" >
+                                Approvals
+                            </a>
+                        </li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                      <li><a href="{% url 'logout' %}">Log Out</a></li>
+                    </ul>
+                  </div>
+                </nav>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8">
+                       <h1>Lastest Approval Shows Up here</h1>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="card">
+                        <img class="card-img-top img-circle" src="{% if user_profile.profile_pic %} {{user_profile.profile_pic.url}} {% else %} {% static 'images/default_user.jpg' %} {% endif %}" alt="User image" style="max-width:100%; height:auto">
+                        <div class="card-body">
+                          <h4 class="card-title">{{user_profile.name}}</h4>
+                          <p class="card-text">{{user_profile.user}}</p>
+                            <div>
+                                <button style="margin-top:10px" class="btn btn-primary p-2" type="button" data-toggle="modal" data-target="#new_pic_modal">Update Pic</button>
+                                <div class="modal fade" id="new_pic_modal" role="dialog">
+
+                                    <div class="modal-dialog">
+
+                                      <!-- Modal content-->
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                          <h4 class="modal-title">Update Pic</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                    <form class="form-horizontal" action="{% url 'update_dp' %}" method="post" enctype="multipart/form-data">
+                                      {% csrf_token %}
+                                        <div class="form-group">
+                                        <label class="control-label col-sm-2" for="dp_new">Image</label>
+                                        <div class="col-sm-10">
+                                          <input type="file" accept="image/*" class="form-control" id="dp_new" name="dp_new" placeholder="Choose Image" required>
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <div class="col-sm-offset-10 col-sm-2">
+                                          <button type="submit" class="btn btn-primary">Update</button>
+                                        </div>
+                                      </div>
+                                    </form>
+                                        </div>
+                                      </div>
+
+                                    </div>
+
+                                </div>
+                                <div class="modal fade" id="update_password_modal" role="dialog">
+
+                                    <div class="modal-dialog">
+
+                                      <!-- Modal content-->
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                          <h4 class="modal-title">Update Password</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                    <form class="form-horizontal" action="{% url 'update_password' %}" method="post" enctype="multipart/form-data">
+                                      {% csrf_token %}
+                                        <div class="form-group">
+                                        <label class="control-label col-sm-2" for="current_password">Current Password</label>
+                                        <div class="col-sm-10">
+                                          <input type="password" class="form-control" id="current_password" name="current_password" placeholder="Current Password" required>
+                                        </div>
+                                      </div>
+                                        <div class="form-group">
+                                        <label class="control-label col-sm-2" for="new_password">New Password</label>
+                                        <div class="col-sm-10">
+                                          <input type="password" class="form-control" id="new_password" name="new_password" placeholder="New Password" required minlength="8 Characters" maxlength="32 Characters"/>
+                                        </div>
+                                      </div>
+                                        <div class="form-group">
+                                        <label class="control-label col-sm-2" for="confirm_password">Confirm Password</label>
+                                        <div class="col-sm-10">
+                                          <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required>
+                                        </div>
+                                      </div>
+                                      <div class="form-group">
+                                        <div class="col-sm-offset-10 col-sm-2">
+                                          <button type="submit" class="btn btn-primary">Update</button>
+                                        </div>
+                                      </div>
+                                    </form>
+                                        </div>
+                                      </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>

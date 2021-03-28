@@ -36,5 +36,6 @@ urlpatterns = [
     path('essays', sviews.essays, name="essays"),
     path('essays/add', sviews.add_essay, name="add_essay"),
     path('essays/edit/<int:essay_id>', sviews.edit_essay, name="edit_essay"),
+    path('councellor', sviews.councellor_profile, name="councellor_profile"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

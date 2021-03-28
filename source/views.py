@@ -21,7 +21,11 @@ def login(request):
         user = auth.authenticate(username=email, password=password)
         if user is not None:
             auth.login(request, user)
-            return redirect('profile')
+            try:
+                if request.user.councellor is not None:
+                    return redirect('councellor_profile')
+            except AttributeError:
+                return redirect('profile')
     else:
         return render(request, 'source/login.html')
 
@@ -94,7 +98,11 @@ def update_dp(request):
         "user_profile" : user_profile,
         "univ_records" : univ_records
     }
-    return redirect('profile')
+    try:
+        if request.user.councellor is not None:
+            return redirect("councellor_profile")
+    except AttributeError:
+        return redirect('profile')
 
 
 def update_univ_record(request, ur_id):
@@ -103,6 +111,12 @@ def update_univ_record(request, ur_id):
         ur.programme=request.POST["programme"]
         ur.deadline=request.POST["deadline"]
         ur.reco=request.POST.get("univ_reco_update", "") == "on"
+        ur.transcripts=request.POST.get("univ_transcripts_update", "") == "on"
+        ur.test=request.POST.get("univ_test_update", "") == "on"
+        ur.essay=request.POST.get("univ_essay_update", "") == "on"
+        ur.extra=request.POST.get("univ_extra_update", "") == "on"
+        ur.info=request.POST.get("univ_info_update", "") == "on"
+        ur.financial=request.POST.get("univ_financial_update", "") == "on"
         ur.save()
         return redirect('profile')
     return JsonResponse({
@@ -116,7 +130,12 @@ def add_univ_record(request):
         programme = request.POST["programme"]
         deadline = request.POST["deadline"]
         univ_reco= request.POST.get("univ_reco", "") == "on"
-
+        univ_info= request.POST.get("univ_info", "") == "on"
+        univ_transcripts= request.POST.get("univ_transcripts", "") == "on"
+        univ_essay= request.POST.get("univ_essay", "") == "on"
+        univ_financial= request.POST.get("univ_financial", "") == "on"
+        univ_test= request.POST.get("univ_test", "") == "on"
+        univ_extra= request.POST.get("univ_extra", "") == "on"
 
         ur = UniversityRecord(
             user=request.user,
@@ -124,6 +143,13 @@ def add_univ_record(request):
             programme=programme,
             deadline=deadline,
             reco=univ_reco,
+            info=univ_info,
+            transcripts=univ_transcripts,
+            essay=univ_essay,
+            financial=univ_financial,
+            test=univ_test,
+            extra=univ_extra,
+
         )
         ur.save()
         user_profile = UserProfile.objects.filter(
@@ -157,6 +183,10 @@ def update_password(request):
                 user.set_password(new_pass)
                 user.save()
                 auth.login(request, user)
+            try:
+                if request.user.councellor is not None:
+                    return redirect("councellor_profile")
+            except AttributeError:
                 return redirect('profile')
             else:
                 return JsonResponse({
@@ -232,6 +262,14 @@ def edit_essay(request, essay_id):
         return redirect('essays')
 
 
-
+def councellor_profile(request):
+    user_profile = UserProfile.objects.filter(
+        user = request.user
+    )
+    user_profile = list(user_profile)[0]
+    context = {
+        "user_profile" : user_profile,
+    }
+    return render(request, 'source/councellor_profile.html', context)
 
 

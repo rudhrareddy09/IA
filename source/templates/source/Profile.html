@@ -86,7 +86,7 @@
                                                 <div class="form-group">
                                             <label class="control-label col-sm-3" for="univ_info_update">Personal Information</label>
                                             <div class="col-sm-1">
-                                              <input type="checkbox" class="form-control" id="univ_info_update" name="Personal Information" value="{{univ.info}}">
+                                              <input type="checkbox" class="form-control" id="univ_info_update" name="univ_info_update" {% if univ.info %}checked{% endif %}>
                                             </div>
                                                     <div class="col-sm-8">
 
@@ -105,9 +105,9 @@
 
                                                      </div>
                                                 <div class="form-group">
-                                            <label class="control-label col-sm-3" for="univ_essays_update">Essays</label>
+                                            <label class="control-label col-sm-3" for="univ_essay_update">Essays</label>
                                             <div class="col-sm-1">
-                                              <input type="checkbox" class="form-control" id="univ_essays_update" name="univ_essays-update"  >
+                                              <input type="checkbox" class="form-control" id="univ_essay_update" name="univ_essay_update" {% if univ.essay %}checked{% endif %}>
                                             </div>
                                                     <div class="col-sm-8">
 
@@ -117,7 +117,7 @@
                                                 <div class="form-group">
                                             <label class="control-label col-sm-3" for="univ_financial_update">Financial Statements</label>
                                             <div class="col-sm-1">
-                                              <input type="checkbox" class="form-control" id="univ_financial_update" name="Financial Statements" value="{{univ.info}}" >
+                                              <input type="checkbox" class="form-control" id="univ_financial_update" name="univ_financial_update" {% if univ.financial %}checked{% endif %}>
                                             </div>
                                                     <div class="col-sm-8">
 
@@ -127,7 +127,7 @@
                                                 <div class="form-group">
                                             <label class="control-label col-sm-3" for="univ_transcripts_update">Transcripts</label>
                                             <div class="col-sm-1">
-                                              <input type="checkbox" class="form-control" id="univ_transcripts_update" name="Transcripts" value="{{univ.info}}" >
+                                              <input type="checkbox" class="form-control" id="univ_transcripts_update" name="univ_transcripts_update" {% if univ.transcripts %}checked{% endif %}>
                                             </div>
                                                     <div class="col-sm-8">
 
@@ -137,7 +137,7 @@
                                                 <div class="form-group">
                                             <label class="control-label col-sm-3" for="univ_test_update">Test Scores</label>
                                             <div class="col-sm-1">
-                                              <input type="checkbox" class="form-control" id="univ_test_update" name="Test Scores" value="{{univ.info}}" >
+                                              <input type="checkbox" class="form-control" id="univ_test_update" name="univ_test_update" {% if univ.test %}checked{% endif %}>
                                             </div>
                                                     <div class="col-sm-8">
 
@@ -147,7 +147,7 @@
                                                 <div class="form-group">
                                             <label class="control-label col-sm-3" for="univ_extra_update">Extracurricular Activities</label>
                                             <div class="col-sm-1">
-                                              <input type="checkbox" class="form-control" id="univ_extra_update" name="Extracurricular Activities" value="{{univ.info}}" >
+                                              <input type="checkbox" class="form-control" id="univ_extra_update" name="univ_extra_update" {% if univ.extra %}checked{% endif %}>
                                             </div>
                                                     <div class="col-sm-8">
 
